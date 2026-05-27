@@ -17,7 +17,7 @@ class CsvMediaSpider(Spider):
         if csv_file:
             self.csv_file = os.path.abspath(csv_file)
         else:
-            self.csv_file = self.settings.get("CSV_INPUT_FILE")
+            self.csv_file = self.custom_settings.get("CSV_INPUT_FILE")
 
         if not self.csv_file:
             raise ValueError("csv_file must be provided either as an argument or via CSV_INPUT_FILE")
@@ -27,7 +27,7 @@ class CsvMediaSpider(Spider):
             os.path.join(os.path.dirname(__file__), "..", "..", "..", "crawls", self.csv_base)
         )
         os.makedirs(self.jobdir, exist_ok=True)
-        self.settings.set("JOBDIR", self.jobdir, priority="spider")
+        self.custom_settings["JOBDIR"] = self.jobdir
 
     def start_requests(self):
         if not os.path.exists(self.csv_file):
